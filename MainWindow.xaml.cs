@@ -28,7 +28,7 @@ namespace PiterExp
         private string selectedTable;
         private string GetConnectionString()
         {
-            return "Server=127.0.0.1;DATABASE=piterexpert;UID=root; PASSWORD=12345;";
+            return "Server=127.0.0.1;DATABASE=piterexpert;UID=employee; PASSWORD=pexp1488;";
         }
         private void ExecuteQuery(string query)
         {
