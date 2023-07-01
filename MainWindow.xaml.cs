@@ -101,7 +101,38 @@ namespace PiterExp
         }
         private void Save_btn_Click(object sender, RoutedEventArgs e)
         {
+            var dataTable = ((DataView)dtGrid.ItemsSource)?.Table;
+            string sql = $"SELECT * FROM " + "`" + selectedTable + "`";
 
+            try
+            {
+                using (var conn = new MySqlConnection(GetConnectionString()))
+                {
+                    conn.Open();
+                    using (var adapter = new MySqlDataAdapter())
+                    {
+                        adapter.SelectCommand = new MySqlCommand(sql, conn);
+
+                        var builder = new MySqlCommandBuilder(adapter);
+                        adapter.InsertCommand = builder.GetInsertCommand();
+                        adapter.UpdateCommand = builder.GetUpdateCommand();
+                        adapter.DeleteCommand = builder.GetDeleteCommand();
+
+                        adapter.Update(dataTable);
+
+                        MessageBox.Show("Изменения сохранены.");
+                        Cancel_btn.Visibility = Visibility.Hidden;
+                        Save_btn.Visibility = Visibility.Hidden;
+
+                        ExecuteQuery(sql);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
         }
         private void dtGrid_KeyDown(object sender, KeyEventArgs e)
         {
