@@ -51,7 +51,15 @@ namespace PiterExp
         {
             InitializeComponent();
 
-            PopulateTableComboBox();
+ 
+            DataTable dt = new DataTable();
+            string query = "SHOW TABLES"; // Запрос для получения списка таблиц
+            ExecuteQuery(query, dt, dtGrid); // Не передавайте DataGrid в ExecuteQuery, так как его не нужно обновлять здесь
+
+            foreach (DataRow row in dt.Rows)
+            {
+                tableComboBox.Items.Add(row[0]); // Добавьте имя таблицы в ComboBox
+            }
 
         }
 
@@ -60,41 +68,9 @@ namespace PiterExp
             string selectedTable = tableComboBox.SelectedItem.ToString(); // Получите имя выбранной таблицы
 
             DataTable dt = new DataTable();
-            string query = "SELECT * FROM " + selectedTable; // Создайте запрос для выборки данных из выбранной таблицы
+            string query = "SELECT * FROM " + "`"+selectedTable+"`"; // Создайте запрос для выборки данных из выбранной таблицы
             ExecuteQuery(query, dt, dtGrid);
         }
 
-        private List<string> GetAvailableTablesForUser()
-        {
-            List<string> availableTables = new List<string>();
-
-            availableTables.Add("`договор`");
-            availableTables.Add("`договор-услуга`");
-            availableTables.Add("`клиенты`");
-            availableTables.Add("`клиенты-льготы`");
-            availableTables.Add("`льготы`");
-            availableTables.Add("`система_налогооблажения-клиент`");
-            availableTables.Add("`система_налогообложения`");
-            availableTables.Add("`сотрудники`");
-            availableTables.Add("`услуги`");
-            availableTables.Add("`услуги вэд`");
-                
-            return availableTables;
-
-        }
-        public void PopulateTableComboBox()
-        {
-            //доступные таблицы для текущего пользователя
-            List<string> availableTables = GetAvailableTablesForUser();
-
-
-            tableComboBox.Items.Clear();
-
-            //каждую таблицу в ComboBox
-            foreach (string tableName in availableTables)
-            {
-                tableComboBox.Items.Add(tableName);
-            }
-        }
     }
 }
