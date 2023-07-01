@@ -7,7 +7,7 @@
         xmlns:local="clr-namespace:PiterExp"
         mc:Ignorable="d"
         ResizeMode="NoResize"
-        Title="Piter-Expert" Height="350" Width="600">
+        Title="Piter-Expert" Height="350" Width="600" WindowStartupLocation="CenterScreen">
     <Grid>
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,40,0,0">
             <Label Content="ПитерЭксперт" HorizontalAlignment="Center" Margin="10" Width="188" HorizontalContentAlignment="Center" FontFamily="Wide Latin" FontSize="24" FontWeight="Bold" Height="32" Style="{StaticResource MaterialDesignLabel}"/>

@@ -6,12 +6,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PiterExp"
         mc:Ignorable="d"
-        Title="База данных" Height="450" Width="800" Loaded="Window_Loaded">
+        Title="База данных" Height="450" Width="800" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded">
     <Grid>
         <ComboBox Height="31" x:Name="tableComboBox" Text="Таблицы" Background="#FF8E8585" SelectionChanged="ComboBox_SelectionChanged" VerticalAlignment="Top" HorizontalAlignment="Right" Width="195" >
             <ComboBoxItem IsEnabled="False">Выберите таблицу</ComboBoxItem>
         </ComboBox>
-        <DataGrid ItemsSource="{Binding}" x:Name="dtGrid" Margin="0,0,200,0" />
+        <DataGrid ItemsSource="{Binding}" x:Name="dtGrid" Margin="0,0,200,0" KeyDown="dtGrid_KeyDown" />
         <Button x:Name="Save_btn" Content="Сохранить изменения" HorizontalAlignment="Right" Margin="0,36,10,0" VerticalAlignment="Top" Width="185" Click="Save_btn_Click"/>
         <Button x:Name="Cancel_btn" Content="Отменить изменения" HorizontalAlignment="Right" Margin="0,73,10,0" VerticalAlignment="Top" Width="185" Click="Cancel_btn_Click"/>
     </Grid>

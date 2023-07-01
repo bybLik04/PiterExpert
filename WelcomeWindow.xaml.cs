@@ -29,7 +29,7 @@ namespace PiterExp
         {
             this.Hide();
             Window1 window1 = new Window1();
-            window1.ShowDialog();
+            window1.Show();
             this.Close();
         }
     }

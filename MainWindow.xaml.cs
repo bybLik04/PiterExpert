@@ -25,11 +25,11 @@ namespace PiterExp
     public partial class Window1 : Window
     {
         private string first_table;
+        private string selectedTable;
         private string GetConnectionString()
         {
             return "Server=127.0.0.1;DATABASE=piterexpert;UID=root; PASSWORD=12345;";
         }
-
         private void ExecuteQuery(string query)
         {
             try
@@ -55,6 +55,13 @@ namespace PiterExp
             InitializeComponent();
 
         }
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            Cancel_btn.Visibility = Visibility.Hidden;
+            Save_btn.Visibility = Visibility.Hidden;
+            Load();
+            ExecuteQuery("SELECT * FROM " + "`" + first_table + "`");
+        }
         private void Load()
         {
             const string sql = "SHOW TABLES";
@@ -74,6 +81,7 @@ namespace PiterExp
                             tableComboBox.Items.Add(row[0]);
                         }
                         first_table = tableComboBox.Items.GetItemAt(1).ToString();
+                        selectedTable = tableComboBox.Items.GetItemAt(1).ToString();
                         conn.Close();
                     }
                 }
@@ -86,29 +94,25 @@ namespace PiterExp
         }
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            string selectedTable = tableComboBox.SelectedItem.ToString(); // Получите имя выбранной таблицы
+            selectedTable = tableComboBox.SelectedItem.ToString(); // Получите имя выбранной таблицы
 
-            DataTable dt = new DataTable();
             string query = "SELECT * FROM " + "`"+selectedTable+"`"; // Создайте запрос для выборки данных из выбранной таблицы
             ExecuteQuery(query);
         }
-
         private void Save_btn_Click(object sender, RoutedEventArgs e)
         {
 
         }
-
+        private void dtGrid_KeyDown(object sender, KeyEventArgs e)
+        {
+            Cancel_btn.Visibility = Visibility.Visible;
+            Save_btn.Visibility = Visibility.Visible;
+        }
         private void Cancel_btn_Click(object sender, RoutedEventArgs e)
         {
-
-        }
-
-        private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
+            ExecuteQuery($"SELECT * FROM " + "`" + selectedTable + "`");
             Cancel_btn.Visibility = Visibility.Hidden;
             Save_btn.Visibility = Visibility.Hidden;
-            Load();
-            ExecuteQuery("SELECT * FROM " + "`" + first_table + "`");
         }
     }
 }
