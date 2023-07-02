@@ -13,5 +13,6 @@ namespace PiterExp
     /// </summary>
     public partial class App : Application
     {
+        public string Servic { get; set; } = null;
     }
 }

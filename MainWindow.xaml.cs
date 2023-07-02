@@ -30,6 +30,107 @@ namespace PiterExp
         {
             return "Server=127.0.0.1;DATABASE=piterexpert;UID=employee; PASSWORD=pexp1488;";
         }
+
+        private string GetConnectionString1()
+        {
+            return "Server=127.0.0.1;DATABASE=piterexpert;UID=root; PASSWORD=123456;";
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            ExitMessageBox exitMessageBox = new ExitMessageBox();
+            exitMessageBox.ShowDialog();
+
+            if (exitMessageBox.DialogResult)
+            {
+                Application.Current.Shutdown();
+            }
+            else
+            {
+                exitMessageBox.Close();
+            }
+        }
+
+        private void Minimized_button(object sender, RoutedEventArgs e)
+        {
+            WindowState = WindowState.Normal;
+            ResizeMode = ResizeMode.CanResize;
+            wnd.Visibility = Visibility.Hidden;
+            fwnd.Visibility = Visibility.Visible;
+            WindowDragHelper dragHelper = new WindowDragHelper();
+            dragHelper.Attach(this);
+
+        }
+
+
+
+        private void FullScreen_button(object sender, RoutedEventArgs e)
+        {
+            //WindowState = WindowState.Maximized;
+            WindowStyle = WindowStyle.None;
+            ResizeMode = ResizeMode.CanResize;
+
+            Topmost = false;
+
+            // Получаем доступные размеры рабочей области экрана
+            double workAreaWidth = SystemParameters.WorkArea.Width;
+            double workAreaHeight = SystemParameters.WorkArea.Height;
+
+            // Устанавливаем размеры окна
+            Width = workAreaWidth;
+            Height = workAreaHeight;
+
+            // Устанавливаем позицию окна, чтобы оно не перекрывало панель Windows
+            Left = SystemParameters.WorkArea.Left;
+            Top = SystemParameters.WorkArea.Top;
+
+            wnd.Visibility = Visibility.Visible;
+            fwnd.Visibility = Visibility.Hidden;
+        }
+
+        private void Button_Click_2(object sender, RoutedEventArgs e)
+        {
+            WindowState = WindowState.Minimized;
+        }
+
+
+        //private void Window_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        //{
+        //    // Запоминаем начальную позицию мыши при нажатии кнопки мыши на заголовке окна
+        //    if (e.LeftButton == MouseButtonState.Pressed && e.GetPosition(this).Y <= SystemParameters.CaptionHeight)
+        //    {
+        //        startPoint = e.GetPosition(this);
+        //        isDragging = true;
+        //    }
+        //}
+
+        //private void Window_PreviewMouseMove(object sender, MouseEventArgs e)
+        //{
+        //    // Перемещаем окно при перемещении мыши, если кнопка мыши нажата и мышь находится в верхней части окна
+        //    if (isDragging && e.LeftButton == MouseButtonState.Pressed)
+        //    {
+        //        Point currentPosition = e.GetPosition(this);
+        //        Vector moveDifference = startPoint - currentPosition;
+
+        //        if (Math.Abs(moveDifference.X) > SystemParameters.MinimumHorizontalDragDistance ||
+        //            Math.Abs(moveDifference.Y) > SystemParameters.MinimumVerticalDragDistance)
+        //        {
+        //            this.Left -= moveDifference.X;
+        //            this.Top -= moveDifference.Y;
+        //        }
+        //    }
+        //}
+
+        //private void Window_PreviewMouseUp(object sender, MouseButtonEventArgs e)
+        //{
+        //    // Завершаем перемещение окна при отпускании кнопки мыши
+        //    isDragging = false;
+        //}
+
+
+
+
+
         private void ExecuteQuery(string query)
         {
             try
@@ -50,9 +151,12 @@ namespace PiterExp
                 MessageBox.Show("Ошибка при работе с базой данных: " + ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+
+
         public Window1()
         {
             InitializeComponent();
+            
 
         }
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -61,6 +165,7 @@ namespace PiterExp
             Save_btn.Visibility = Visibility.Hidden;
             Load();
             ExecuteQuery("SELECT * FROM " + "`" + first_table + "`");
+
         }
         private void Load()
         {
@@ -144,6 +249,100 @@ namespace PiterExp
             ExecuteQuery($"SELECT * FROM " + "`" + selectedTable + "`");
             Cancel_btn.Visibility = Visibility.Hidden;
             Save_btn.Visibility = Visibility.Hidden;
+        }
+
+        private void BtnServ(object sender, RoutedEventArgs e)
+        {
+            Service service = new Service();
+
+            if (service.ShowDialog() == true)
+            {
+                using (MySqlConnection connection = new MySqlConnection(GetConnectionString1()))
+                {
+                    connection.Open();
+
+                    // Создание команды для вызова процедуры
+                    using (MySqlCommand command = new MySqlCommand("GetClientByServiceName", connection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+
+                        // Добавление параметров процедуры, если необходимо
+                        command.Parameters.AddWithValue("@service_name", service.serv.Text);
+
+                        // Создание адаптера данных для заполнения DataTable
+                        MySqlDataAdapter adapter = new MySqlDataAdapter(command);
+                        DataTable dataTable = new DataTable();
+
+                        dataTable.Load(command.ExecuteReader());
+                        dtGrid.DataContext = dataTable;
+                    }
+
+                    connection.Close();
+                }
+            }
+        }
+
+        private void BtnDate(object sender, RoutedEventArgs e)
+        {
+            Date date = new Date();
+
+            if (date.ShowDialog() == true)
+            {
+                using (MySqlConnection connection = new MySqlConnection(GetConnectionString1()))
+                {
+                    connection.Open();
+
+                    // Создание команды для вызова процедуры
+                    using (MySqlCommand command = new MySqlCommand("`GetContractNumbersByDateRange`", connection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+
+                        // Добавление параметров процедуры, если необходимо
+                        command.Parameters.AddWithValue("@start_date", date.date1.Text);
+                        command.Parameters.AddWithValue("@end_date", date.date2.Text);
+
+                        // Создание адаптера данных для заполнения DataTable
+                        MySqlDataAdapter adapter = new MySqlDataAdapter(command);
+                        DataTable dataTable = new DataTable();
+
+                        dataTable.Load(command.ExecuteReader());
+                        dtGrid.DataContext = dataTable;
+                    }
+
+                    connection.Close();
+                }
+            }
+        }
+
+        private void BtnDogovor(object sender, RoutedEventArgs e)
+        {
+            NumberDogovor ND = new NumberDogovor();
+
+            if (ND.ShowDialog() == true)
+            {
+                using (MySqlConnection connection = new MySqlConnection(GetConnectionString1()))
+                {
+                    connection.Open();
+
+                    // Создание команды для вызова процедуры
+                    using (MySqlCommand command = new MySqlCommand("`GetServicesByContract`", connection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+
+                        // Добавление параметров процедуры, если необходимо
+                        command.Parameters.AddWithValue("@contract_id", int.Parse(ND.dogvr.Text));
+
+
+                        // Создание адаптера данных для заполнения DataTable
+                        MySqlDataAdapter adapter = new MySqlDataAdapter(command);
+                        DataTable dataTable = new DataTable();
+                        dataTable.Load(command.ExecuteReader());
+                        dtGrid.DataContext = dataTable;
+                    }
+
+                    connection.Close();
+                }
+            }
         }
     }
 }

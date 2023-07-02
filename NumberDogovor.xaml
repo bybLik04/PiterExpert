@@ -1,0 +1,41 @@
+﻿<Window x:Class="PiterExp.NumberDogovor"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PiterExp"
+        mc:Ignorable="d"
+        ResizeMode="NoResize"
+        WindowStyle="None"
+        Title="NumberDogovor" Height="200" Width="400" WindowStartupLocation="CenterScreen" Background="#B0B7C6">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="8*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="14*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+
+            <Button Style="{StaticResource MaterialDesignIconButton}" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center" Click="close_Click" x:Name="close">
+                <materialDesign:PackIcon Kind="Close" />
+                <Button.ToolTip>
+                    <ToolTip Content="Закрыть" />
+                </Button.ToolTip>
+            </Button>
+
+        </Grid>
+        <StackPanel Grid.Row="1" HorizontalAlignment="Center">
+            <TextBlock Text="Введите номер договора" FontSize="28"/>
+            <TextBox Style="{StaticResource MaterialDesignTextBox}" 
+             FontSize="20" Margin="5" x:Name="dogvr" HorizontalContentAlignment="Center"/>
+            <Button Content="Найти" Width="200" FontSize="20" Margin="5" Click="btnSearch"/>
+        </StackPanel>
+    </Grid>
+</Window>
