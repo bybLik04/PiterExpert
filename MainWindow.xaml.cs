@@ -94,43 +94,6 @@ namespace PiterExp
         }
 
 
-        //private void Window_PreviewMouseDown(object sender, MouseButtonEventArgs e)
-        //{
-        //    // Запоминаем начальную позицию мыши при нажатии кнопки мыши на заголовке окна
-        //    if (e.LeftButton == MouseButtonState.Pressed && e.GetPosition(this).Y <= SystemParameters.CaptionHeight)
-        //    {
-        //        startPoint = e.GetPosition(this);
-        //        isDragging = true;
-        //    }
-        //}
-
-        //private void Window_PreviewMouseMove(object sender, MouseEventArgs e)
-        //{
-        //    // Перемещаем окно при перемещении мыши, если кнопка мыши нажата и мышь находится в верхней части окна
-        //    if (isDragging && e.LeftButton == MouseButtonState.Pressed)
-        //    {
-        //        Point currentPosition = e.GetPosition(this);
-        //        Vector moveDifference = startPoint - currentPosition;
-
-        //        if (Math.Abs(moveDifference.X) > SystemParameters.MinimumHorizontalDragDistance ||
-        //            Math.Abs(moveDifference.Y) > SystemParameters.MinimumVerticalDragDistance)
-        //        {
-        //            this.Left -= moveDifference.X;
-        //            this.Top -= moveDifference.Y;
-        //        }
-        //    }
-        //}
-
-        //private void Window_PreviewMouseUp(object sender, MouseButtonEventArgs e)
-        //{
-        //    // Завершаем перемещение окна при отпускании кнопки мыши
-        //    isDragging = false;
-        //}
-
-
-
-
-
         private void ExecuteQuery(string query)
         {
             try
