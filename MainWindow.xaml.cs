@@ -31,11 +31,6 @@ namespace PiterExp
             return "Server=127.0.0.1;DATABASE=piterexpert;UID=employee; PASSWORD=pexp1488;";
         }
 
-        private string GetConnectionString1()
-        {
-            return "Server=127.0.0.1;DATABASE=piterexpert;UID=root; PASSWORD=123456;";
-        }
-
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             ExitMessageBox exitMessageBox = new ExitMessageBox();
@@ -220,7 +215,7 @@ namespace PiterExp
 
             if (service.ShowDialog() == true)
             {
-                using (MySqlConnection connection = new MySqlConnection(GetConnectionString1()))
+                using (MySqlConnection connection = new MySqlConnection(GetConnectionString()))
                 {
                     connection.Open();
 
@@ -251,7 +246,7 @@ namespace PiterExp
 
             if (date.ShowDialog() == true)
             {
-                using (MySqlConnection connection = new MySqlConnection(GetConnectionString1()))
+                using (MySqlConnection connection = new MySqlConnection(GetConnectionString()))
                 {
                     connection.Open();
 
@@ -283,7 +278,7 @@ namespace PiterExp
 
             if (ND.ShowDialog() == true)
             {
-                using (MySqlConnection connection = new MySqlConnection(GetConnectionString1()))
+                using (MySqlConnection connection = new MySqlConnection(GetConnectionString()))
                 {
                     connection.Open();
 
