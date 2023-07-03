@@ -119,6 +119,7 @@ namespace PiterExp
         }
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            changetxt.Visibility = Visibility.Hidden;
             Cancel_btn.Visibility = Visibility.Hidden;
             Save_btn.Visibility = Visibility.Hidden;
             Load();
@@ -186,6 +187,7 @@ namespace PiterExp
                         MessageBox.Show("Изменения сохранены.");
                         Cancel_btn.Visibility = Visibility.Hidden;
                         Save_btn.Visibility = Visibility.Hidden;
+                        changetxt.Visibility = Visibility.Hidden;
 
                         ExecuteQuery(sql);
                     }
@@ -201,12 +203,14 @@ namespace PiterExp
         {
             Cancel_btn.Visibility = Visibility.Visible;
             Save_btn.Visibility = Visibility.Visible;
+            changetxt.Visibility = Visibility.Visible;
         }
         private void Cancel_btn_Click(object sender, RoutedEventArgs e)
         {
             ExecuteQuery($"SELECT * FROM " + "`" + selectedTable + "`");
             Cancel_btn.Visibility = Visibility.Hidden;
             Save_btn.Visibility = Visibility.Hidden;
+            changetxt.Visibility = Visibility.Hidden;
         }
 
         private void BtnServ(object sender, RoutedEventArgs e)
